@@ -1,0 +1,42 @@
+pipeline {  
+ agent any  
+ environment {  
+  dotnet = 'C:\\Program Files\\dotnet\\dotnet.exe'  
+ }  
+ stages {  
+  stage('Checkout') {  
+   steps {
+       git credentialsId: 'a6877031-1c15-4d0d-aa87-7c51aeade521', url: 'https://github.com/Nitin631/JenkinsWebApplicationDemo.git', branch: 'main'
+   }  
+  }  
+ stage('Build') {  
+   steps {  
+    bat 'dotnet build %WORKSPACE%\\JenkinsWebApplicationDemo.sln --configuration Release' 
+  
+   }  
+  }  
+  stage('Test') {  
+   steps {  
+    bat 'dotnet test %WORKSPACE%\\TestProject1\\TestProject1.csproj'  
+   }  
+  }
+ 
+stage('Deploy Stage local') {
+            steps {
+                //Deploy application on IIS                
+                bat '"C:\\Program Files\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" -verb=sync -source:package="%WORKSPACE%\\JenkinsWebApplicationDemo\\bin\\Release\\net6.0\\JenkinsWebApplicationDemo.zip" -dest:auto -setParam:name="IIS Web Application Name",value="Demo.Web1"  -allowUntrusted=true'
+                bat 'net stop "w3svc"'
+                bat 'net start "w3svc"'
+            }
+        }
+ stage('Deploy Stage AWS') {
+            steps {
+                //Deploy code to s3 bucket
+                bat "aws s3 sync C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\.netpipleine\\JenkinsWebApplicationDemo\\bin\\Release\\net6.0\\publish  s3://trainingbucketaccelration1"
+                
+               
+            }
+        }          
+
+ }  
+} 
