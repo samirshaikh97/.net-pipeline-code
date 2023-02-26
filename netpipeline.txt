@@ -6,7 +6,7 @@ pipeline {
  stages {  
   stage('Checkout') {  
    steps {
-       git credentialsId: 'a6877031-1c15-4d0d-aa87-7c51aeade521', url: 'https://github.com/Nitin631/JenkinsWebApplicationDemo.git', branch: 'main'
+       git credentialsId: '35ccadae-e061-4eee-b4ea-63c8bc2e885c', url: 'https://github.com/samirshaikh97/.net-pipeline-code', branch: 'main'
    }  
   }  
  stage('Build') {  
