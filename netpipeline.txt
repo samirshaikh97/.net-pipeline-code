@@ -6,7 +6,7 @@ pipeline {
  stages {  
   stage('Checkout') {  
    steps {
-       git credentialsId: '35ccadae-e061-4eee-b4ea-63c8bc2e885c', url: 'https://github.com/samirshaikh97/.net-pipeline-code', branch: 'main'
+       git credentialsId: '35ccadae-e061-4eee-b4ea-63c8bc2e885c', url: 'https://github.com/samirshaikh97/.net-pipeline-code.git', branch: 'main'
    }  
   }  
  stage('Build') {  
