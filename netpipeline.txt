@@ -11,7 +11,7 @@ pipeline {
   }  
  stage('Build') {  
    steps {  
-    bat 'dotnet build %WORKSPACE%\\JenkinsWebApplicationDemo.sln --configuration Release' 
+    bat 'dotnet build %WORKSPACE%\\.net-pipeline-code.sln --configuration Release' 
   
    }  
   }  
@@ -24,7 +24,7 @@ pipeline {
 stage('Deploy Stage local') {
             steps {
                 //Deploy application on IIS                
-                bat '"C:\\Program Files\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" -verb=sync -source:package="%WORKSPACE%\\JenkinsWebApplicationDemo\\bin\\Release\\net6.0\\JenkinsWebApplicationDemo.zip" -dest:auto -setParam:name="IIS Web Application Name",value="Demo.Web1"  -allowUntrusted=true'
+                bat '"C:\\Program Files\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" -verb=sync -source:package="%WORKSPACE%\\.net-pipeline-code\\bin\\Release\\net6.0\\.net-pipeline-code.zip" -dest:auto -setParam:name="IIS Web Application Name",value="Demo.Web1"  -allowUntrusted=true'
                 bat 'net stop "w3svc"'
                 bat 'net start "w3svc"'
             }
@@ -32,7 +32,7 @@ stage('Deploy Stage local') {
  stage('Deploy Stage AWS') {
             steps {
                 //Deploy code to s3 bucket
-                bat "aws s3 sync C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\.netpipleine\\JenkinsWebApplicationDemo\\bin\\Release\\net6.0\\publish  s3://trainingbucketaccelration1"
+                bat "aws s3 sync C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\.netpipleine\\.net-pipeline-code\\bin\\Release\\net6.0\\publish  s3://trainingbucketaccelration1"
                 
                
             }
